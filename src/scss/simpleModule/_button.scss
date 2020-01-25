@@ -21,3 +21,11 @@
 	}
 	
 }
+
+.button--round {
+	@extend %button;
+
+	text-align: center;
+	
+	border-radius: 50%;
+}
