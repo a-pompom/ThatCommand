@@ -76,10 +76,6 @@
 				
 				margin-top: 20px;
 				
-				// 拡大して出現
-				transform-origin: 0 0; 
-				transform: scaleY(1);
-				transition: all .5s;
 			}
 
 			&__list {
@@ -156,9 +152,6 @@
 				
 				margin: 20px 20px;
 				
-				transform-origin: 0 0;
-				transform: scaleY(1);
-				transition: all .8s;
 			}
 
 			// toggle要素に追従

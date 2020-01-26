@@ -10,29 +10,31 @@
             Category
             </h2> 
 
-            <h2 id="newCategory" class="command-category-header__button button--round new-category"></h2>
+            <h2 v-on:click="toggleCategoryInputVisibility" class="command-category-header__button button--round new-category"></h2>
 
         </header>
 
         <div class="command-category-body">
 
             <!-- カテゴリ入力 -->
-            <form class="command-category-body__input hidden-item" id="categoryInput">
+			<transition name="input-toggle">
+				<form ref="categoryInput" v-show="isCategoryInputVisible" class="command-category-body__input">
 
-                <label for="categoryName" class="category-input">
-                    <input type="text" id="categoryName" placeholder=" ">
-                    <span class="category-input__placeholder">Category</span>
-                    <span class="category-input__border"></span>
-                </label>
+					<label for="categoryName" class="category-input">
+						<input type="text" id="categoryName" placeholder=" ">
+						<span class="category-input__placeholder">Category</span>
+						<span class="category-input__border"></span>
+					</label>
 
-                <input type="submit" value="ADD" class="button--category-add">
-            </form>
+					<input type="submit" value="ADD" class="button--category-add">
+				</form>
+			</transition>
 
             <!-- カテゴリ一覧 -->
-            <aside class="command-category-body__list">
+            <aside v-bind:style="categoryListTranslate" class="command-category-body__list">
 
                 <!-- カテゴリ編集アイコン カテゴリ名の組 -->
-                <ul id="categoryList" class="category-list">
+                <ul class="category-list">
                     <span><i id="categoryEdit-1" class="fas fa-cog category-edit"></i></span>
                     <li id="categoryListItem-1" class="category-list__item">
                         Category1
@@ -55,39 +57,41 @@
             <!-- ヘッダ -->
 			<header class="command-item-header">
 				<h2>Item</h2>
-				<h2 id="newCommand" class="command-item-header__button button--round new-command"></h2>
+				<h2 v-on:click="toggleCommandInputVisibility" class="command-item-header__button button--round new-command"></h2>
 			</header>
 
 			<main class="command-item-body">
 
                 <!-- 入力欄 -->
-				<form class="command-item-body__input hidden-item" id="commandInput">
+				<transition name="input-toggle">
+					<form ref="commandInput" v-show="isCommandInputVisible" class="command-item-body__input">
 
-					<label for="title" class="command-input">
-						<input type="text" id="title" placeholder=" ">
-						<span class="command-input__placeholder">Title</span>
-						<span class="command-input__border"></span>
-					</label>
+						<label for="title" class="command-input">
+							<input type="text" id="title" placeholder=" ">
+							<span class="command-input__placeholder">Title</span>
+							<span class="command-input__border"></span>
+						</label>
 
-					<label for="subCategory" class="command-input">
-						<input type="text" id="subCategory" placeholder=" ">
-						<span class="command-input__placeholder">Sub Category</span>
-						<span class="command-input__border"></span>
-					</label>
+						<label for="subCategory" class="command-input">
+							<input type="text" id="subCategory" placeholder=" ">
+							<span class="command-input__placeholder">Sub Category</span>
+							<span class="command-input__border"></span>
+						</label>
 
 
-					<label for="memo" class="command-textarea">
-						<textarea id="memo" placeholder=" "></textarea>
-						<span class="command-textarea__placeholder">Memo</span>
-						<span class="command-textarea__border"></span>
-					</label>
+						<label for="memo" class="command-textarea">
+							<textarea id="memo" placeholder=" "></textarea>
+							<span class="command-textarea__placeholder">Memo</span>
+							<span class="command-textarea__border"></span>
+						</label>
 
-					<input type="submit" 
-						value="ADD" class="button--command-add">
-				</form>
+						<input type="submit" 
+							value="ADD" class="button--command-add">
+					</form>
+				</transition>
 
                 <!-- コマンド一覧 -->
-				<ul id="commandList" class="command-item--body__list">
+				<ul v-bind:style="commandListTranslate" class="command-item-body__list">
 					<li>
 
 						<ul id="commandSubList-1" title="SubCategory 1" class="command-list" >
@@ -234,9 +238,71 @@
 <script>
 
 export default {
-  name: 'command',
+    name: 'command',
+
+    data() {
+
+		return {
+			isCategoryInputVisible: false,
+			isCommandInputVisible: false,
+
+			categoryListTranslate: {
+				transform: ''
+			},
+			commandListTranslate: {
+				transform: ''
+			}
+		}
+
+	},
+
+	methods: {
+
+		toggleCategoryInputVisibility() {
+			this.isCategoryInputVisible = !this.isCategoryInputVisible
+
+			this.$nextTick(() => {
+				const categoryListHeight = this.$refs.categoryInput.clientHeight
+				this.categoryListTranslate.transform = `translateY(${categoryListHeight}px)`
+			})
+		},
+
+		toggleCommandInputVisibility() {
+			this.isCommandInputVisible = !this.isCommandInputVisible
+
+			this.$nextTick(() => {
+				const commandListHeight = this.$refs.commandInput.clientHeight
+				console.log(commandListHeight)
+				this.commandListTranslate.transform = `translateY(${commandListHeight}px)`
+
+			})
+		}
+	}
 }
 </script>
 
 <style lang="scss">
+
+.input-toggle-enter-active, .input-toggle-leave-active {
+	transform-origin: 0 0; 
+	transition: all .8s;
+}
+
+.input-toggle-leave-to {
+	transform: scaleY(0);
+	height: 0;
+}
+
+.input-toggle-leave {
+	transform: scaleY(1.0);
+	height: 0;
+}
+
+.intput-toggle-enter-to {
+	transform: scaleY(1.0);
+}
+
+.input-toggle-enter {
+	transform: scaleY(0);
+}
 </style>
