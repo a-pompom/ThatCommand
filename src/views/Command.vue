@@ -3,7 +3,7 @@
     <div class="command-container"> 
     
         <!-- カテゴリ一覧 -->
-        <category-list></category-list>
+        <category-container></category-container>
 
         <!--コマンド エリア -->
         <article class="command-item">
@@ -64,7 +64,7 @@
 
 <script>
 import CommandService from '../service/commandService.js'
-import CategoryList from './CategoryList.vue'
+import CategoryContainer from './CategoryContainer.vue'
 import CommandInput from './CommandInput.vue'
 
 const ORIGIN_COMMAND_HEIGHT = 40
@@ -74,7 +74,7 @@ export default {
     name: 'command',
     
     components: {
-		categoryList : CategoryList,
+        categoryContainer: CategoryContainer,
 		commandInput: CommandInput
     },
 
