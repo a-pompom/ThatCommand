@@ -1,5 +1,4 @@
 <template>
-<div>
 
     <!-- カテゴリ入力欄 -->
     <transition name="input-toggle">
@@ -18,7 +17,6 @@
         </form>
     </transition>
 
-</div>
     
 </template>
 
