@@ -67,8 +67,8 @@ export default {
 
     mounted() {
         if (this.option && this.option.hasOwnProperty('layer')) {
-            this.overlayStyle['z-inex'] = this.option.layer + 1
-            this.modalStyle['z-inex'] = this.option.layer + 2
+            this.overlayStyle['z-inex'] = Math.pow(this.option.layer, 2) + 1
+            this.modalStyle['z-inex'] = Math.pow(this.option.layer, 2) + 2
         }
         if (this.option && this.option.hasOwnProperty('backgroundAlpha')) {
             this.overlayStyle['background-color'] = `rgba(0,0,0,${this.option.backgroundAlpha})`
