@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import CategoryContainer from './Category/CategoryContainer.vue'
-import CommandContainer from './Command/CommandContainer.vue'
+import CategoryContainer from '../components/Category/CategoryContainer.vue'
+import CommandContainer from '../components/Command/CommandContainer.vue'
 
 export default {
     name: 'command',
