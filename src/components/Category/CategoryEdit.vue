@@ -8,16 +8,21 @@
             <h3 v-on:click="closeDialog">×</h3>
         </header>
 
-        <form class="category-edit__dialog__input hidden">
+        <form class="category-edit__dialog__input">
 
             <label for="editCategoryName" class="category-update">
-                <input type="text" id="editCategoryName" placeholder=" ">
+                <input 
+                    type="text" 
+                    id="editCategoryName"
+                    placeholder=" "
+                    v-model="editCategory.name"
+                >
                 <span class="category-update__placeholder">Category</span>
                 <span class="category-update__border"></span>
             </label>
 
             <input type="submit" 
-                value="Update Category" class="category-button--update">
+                value="Update Category" class="button--category-update">
 
         </form>
     </div>    
@@ -31,8 +36,9 @@ export default {
     name: 'categoryEdit',
 
     props: {
-        id: Number,
-        name: String,
+        editCategory: {
+            type: Object
+        },
         visible: Boolean
     },
 

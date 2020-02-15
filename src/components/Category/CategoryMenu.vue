@@ -70,8 +70,7 @@ export default {
             // name: 編集対象のカテゴリ名
             // visible: ダイアログが表示されているかを制御
             categoryEditParams: {
-                id: this.currentEditCategory.id,
-                name: this.currentEditCategory.name,
+                editCategory: this.currentEditCategory,
                 visible: false
             },
             // カテゴリダイアログの表示オプション

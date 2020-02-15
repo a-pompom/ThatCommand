@@ -8,7 +8,9 @@
         </h2> 
 
         <h2 v-on:click="toggleCategoryInputVisibility" 
-            class="command-category-header__button button--round new-category">
+            class="command-category-header__button button--round"
+            v-bind:class="inputToggle"
+        >
         </h2>
 
     </header>
@@ -51,6 +53,19 @@ export default {
             isCategoryInputVisible: false,  // カテゴリ入力欄の表示・非表示を管理
             categoryInputScale: 0  // カテゴリ入力欄の大きさ(高さ)
         }
+    },
+    computed: {
+
+        /**
+         * 入力要素の表示・非表示を切り替えるCSSクラス
+         */
+        inputToggle() {
+            return {
+                "new-category": !this.isCategoryInputVisible,
+                "close-category": this.isCategoryInputVisible
+            }
+        }
+
     },
 
     methods: {

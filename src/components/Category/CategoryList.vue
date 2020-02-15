@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import Category from '../../models/Category.js'
+
 import CategoryMenu from './CategoryMenu.vue'
 import Modal from '../Util/Modal.vue'
 
@@ -72,14 +74,8 @@ export default {
 		return {
             // カテゴリ一覧
             categoryList: [
-                {
-                    id: 1,
-                    name: 'Category-1'
-                },
-                {
-                    id: 2,
-                    name: 'Category-2'
-                }
+                new Category(1, 'Category-1'),
+                new Category(2, 'Category-2'),
             ],
 
             // カテゴリ一覧の位置を決めるスタイル
@@ -96,14 +92,11 @@ export default {
             // ・メニューが表示されているか
             categoryMenuParams: {
 
-                currentEditCategory: {
-                    id: -1,
-                    name: ''
-                },
+                currentEditCategory: new Category(-1, ''),
+
                 posX: -1,
                 posY: -1,
                 visible: false
-
             },
 
             // メニューの描画オプション
