@@ -35,7 +35,8 @@
                         <!-- メモ -->
                         <span
                             v-on:click="toggleCommandMemoVisibility(index, itemIndex)"
-                            class="angle-down command-list__item--opener"
+                            v-bind:class="item.cssClass"
+                            class="command-list__item--opener"
                         >
                         </span>
 
@@ -53,8 +54,7 @@
                             class="command-list__item--memo"
                         >
 
-
-                                <pre class="command-memo">test1</pre>
+                            <pre class="command-memo">{{ item.memo }}</pre>
                         </div>
 
                     </li>
@@ -63,10 +63,10 @@
         </ul>
         <!-- コマンド編集メニュー -->
         <modal-component
-            v-bind:params="commandMenuParams"
-            v-bind:visible="commandMenuParams.visible"
+            v-bind:params="menuParams"
+            v-bind:visible="menuParams.menu.visible"
             v-bind:content="commandMenu"
-            v-bind:option="commandMenuOption"
+            v-bind:option="menuParams.menu.option"
 
             v-on:close="closeModal"
         >
@@ -82,6 +82,8 @@ import CommandMenu from './CommandMenu.vue'
 
 import CommandSubcategory from '../../models/CommandSubCategory.js'
 import CommandItem from '../../models/CommandItem.js'
+import Menu from '../../models/Menu.js'
+
 const ORIGIN_COMMAND_HEIGHT = 40
 
 export default {
@@ -120,76 +122,59 @@ export default {
                     new CommandSubcategory('SubCategory1', 
                         [
                             // コマンド
-                            new CommandItem('0', 'item1', '', {height: ''}),
-                            new CommandItem('1', 'item2', '', {height: ''}),
+                            new CommandItem('0', 'item1', 'memo1', {height: ''}),
+                            new CommandItem('1', 'item2', 'memo2', {height: ''}),
                         ]),
 
                     new CommandSubcategory('SubCategory2', 
                         [
-                            new CommandItem('2', 'item2-1', '', {height: ''}),
-                            new CommandItem('3', 'item2-2', '', {height: ''}),
+                            new CommandItem('2', 'item2-1', 'memo2-1', {height: ''}),
+                            new CommandItem('3', 'item2-2', 'memo2-2', {height: ''}),
                         ]),
             ],
             
-            // メニューに渡すパラメータ
-            // ・編集対象
-            // ・メニューの描画位置 クリックしたアイコンをもとに導出
-            // ・メニューが表示されているか
-            commandMenuParams: {
+            // メニュー・ダイアログに渡すパラメータ
+            menuParams: {
 
-                currentEditCommand: {
-                    subCategoryName: '',
-                    id: -1,
-                    name: '',
-                    memo: ''
-                },
-                posX: -1,
-                posY: -1,
-                visible: false
-
-            },
-
-            // メニューの描画オプション
-            commandMenuOption: {
-                layer: 1,
-                backgroundAlpha: 0 // メニュー表示中はオーバーレイは見せない方が自然なので非表示
+                currentEdit: new CommandItem('-1', '', '', {}, ''),
+                menu: new Menu({layer: 1, backgroundAlpha: 0})
             },
 
             commandMenu: CommandMenu
 		}
 
     },
+
     methods: {
 
+        /**
+         * メニューの表示・非表示を切り替える
+         * @param {Number} subCategoryIndex どのカテゴリに属するかを表すインデックス
+         * @param {Number} itemIndex コマンド要素のインデックス
+         * @param {Event} event メニューの表示位置を特定するためのイベントオブジェクト
+         */
         toggleMenuVisibility(subCategoryIndex, itemIndex, event) {
 
             const commandItem = this.commandList[subCategoryIndex]["itemList"][itemIndex]
 
-            this.commandMenuParams.currentEditCommand.subCategoryName = this.commandList[subCategoryIndex].name
-            this.commandMenuParams.currentEditCommand.id = commandItem.id
-            this.commandMenuParams.currentEditCommand.name = commandItem.name
-            this.commandMenuParams.currentEditCommand.memo = commandItem.memo
+            // ダイアログの編集対象を切り替え
+            this.menuParams.currentEdit.subCategoryName = this.commandList[subCategoryIndex].name
+            this.menuParams.currentEdit.id = commandItem.id
+            this.menuParams.currentEdit.name = commandItem.name
+            this.menuParams.currentEdit.memo = commandItem.memo
 
-
-            this.commandMenuParams.posX = this.$refs.commandList[0].clientWidth
-            this.commandMenuParams.posY = event.clientY
-
-            this.commandMenuParams.visible = !this.commandMenuParams.visible
-
+            this.menuParams.menu.setPos(this.$refs.commandList[0].clientWidth, event.clientY)
+            this.menuParams.menu.toggleVisibility()
         },
 
+        /**
+         * モーダルを閉じる
+         */
         closeModal() {
 
-            this.commandMenuParams.currentEditCommand.subCategoryName = ''
-            this.commandMenuParams.currentEditCommand.id = -1
-            this.commandMenuParams.currentEditCommand.name = ''
-            this.commandMenuParams.currentEditCommand.memo = ''
+            this.menuParams.currentEdit.init()
 
-            this.commandMenuParams.posX = -1
-            this.commandMenuParams.posY = -1
-
-            this.commandMenuParams.visible = false
-
+            this.menuParams.menu.init()
         },
 
         /**

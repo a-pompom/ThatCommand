@@ -44,12 +44,12 @@ export default {
     name: 'categoryMenu',
 
     props: {
-        currentEditCategory: {
+        currentEdit: {
             type: Object
         },
-        posX: Number, // メニューの表示位置
-        posY: Number,
-        visible: Boolean
+        menu: {
+            type: Object
+        }
     },
 
     components: {
@@ -66,11 +66,8 @@ export default {
             },
 
             // カテゴリ編集ダイアログへ渡すパラメータ
-            // id: 編集対象の識別子
-            // name: 編集対象のカテゴリ名
-            // visible: ダイアログが表示されているかを制御
             categoryEditParams: {
-                editCategory: this.currentEditCategory,
+                editCategory: this.currentEdit,
                 visible: false
             },
             // カテゴリダイアログの表示オプション
@@ -87,9 +84,9 @@ export default {
         /**
          * メニューが表示されたとき、位置を調整
          */
-        visible() {
+        'menu.visible'() {
 
-            if (this.visible) {
+            if (this.menu.visible) {
 
                 this.setPos()
             }
@@ -107,8 +104,8 @@ export default {
             const MenuGap = 70
 
             this.menuStyle = {
-                top: `${this.posY - MenuGap}px`,
-                left: `${this.posX}px`
+                top: `${this.menu.posY - MenuGap}px`,
+                left: `${this.menu.posX}px`
             }
         },
 

@@ -13,6 +13,11 @@ export default class Category {
 
     }
 
+    init() {
+        this._id = -1
+        this._name = ''
+    }
+
     // getter setter ------------------------------------------------------------------------------
 
     get id() {

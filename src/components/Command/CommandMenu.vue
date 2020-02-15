@@ -44,12 +44,12 @@ export default {
     name: 'commandMenu',
 
     props: {
-        currentEditCommand: {
+        currentEdit: {
             type: Object
         },
-        posX: Number, // メニューの表示位置
-        posY: Number,
-        visible: Boolean
+        menu: {
+            type: Object
+        }
     },
 
     components: {
@@ -70,8 +70,7 @@ export default {
             // name: 編集対象のコマンド名
             // visible: ダイアログが表示されているかを制御
             commandEditParams: {
-                id: this.currentEditCommand.id,
-                name: this.currentEditCommand.name,
+                command: this.currentEdit,
                 visible: false
             },
             // コマンドダイアログの表示オプション
@@ -88,9 +87,9 @@ export default {
         /**
          * メニューが表示されたとき、位置を調整
          */
-        visible() {
+        'menu.visible'() {
 
-            if (this.visible) {
+            if (this.menu.visible) {
 
                 this.setPos()
             }
@@ -106,10 +105,11 @@ export default {
         setPos() {
             // メニューとアイコンの位置関係は、画面上では微妙なずれがあるので、係数を減算してそれっぽく見えるよう補正
             const MenuGapY = 60
+            console.log(this.menu)
 
             this.menuStyle = {
-                top: `${this.posY - MenuGapY}px`,
-                left: `${this.posX}px`
+                top: `${this.menu.posY - MenuGapY}px`,
+                left: `${this.menu.posX}px`
             }
         },
 

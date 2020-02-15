@@ -5,7 +5,11 @@
         <!-- ヘッダ -->
         <header class="command-item-header">
             <h2>Item</h2>
-            <h2 v-on:click="toggleCommandInputVisibility" class="command-item-header__button button--round new-command"></h2>
+            <h2 
+                v-on:click="toggleCommandInputVisibility"
+                v-bind:class="inputToggle"
+                class="command-item-header__button button--round"
+            ></h2>
         </header>
 
         <main class="command-item-body">
@@ -41,6 +45,20 @@ export default {
             isCommandInputVisible: false,  // コマンド入力欄の表示・非表示を管理
             commandInputScale: 0  // コマンド入力欄の大きさ(高さ)
         }
+    },
+
+    computed: {
+
+        /**
+         * 入力要素の表示・非表示を切り替えるCSSクラス
+         */
+        inputToggle() {
+            return {
+                "new-command": !this.isCommandInputVisible,
+                "close-command": this.isCommandInputVisible
+            }
+        }
+
     },
 
     methods: {

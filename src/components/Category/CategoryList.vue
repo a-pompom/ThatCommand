@@ -29,10 +29,10 @@
 
         <!-- カテゴリ編集メニュー -->
         <modal-component
-            v-bind:params="categoryMenuParams"
-            v-bind:visible="categoryMenuParams.visible"
+            v-bind:params="menuParams"
+            v-bind:visible="menuParams.menu.visible"
             v-bind:content="categoryMenu"
-            v-bind:option="categoryMenuOption"
+            v-bind:option="menuParams.menu.option"
 
             v-on:close="closeModal"
         >
@@ -44,6 +44,7 @@
 
 <script>
 import Category from '../../models/Category.js'
+import Menu from '../../models/Menu.js'
 
 import CategoryMenu from './CategoryMenu.vue'
 import Modal from '../Util/Modal.vue'
@@ -90,19 +91,10 @@ export default {
             // ・編集対象
             // ・メニューの描画位置 クリックしたアイコンをもとに導出
             // ・メニューが表示されているか
-            categoryMenuParams: {
+            menuParams: {
 
-                currentEditCategory: new Category(-1, ''),
-
-                posX: -1,
-                posY: -1,
-                visible: false
-            },
-
-            // メニューの描画オプション
-            categoryMenuOption: {
-                layer: 1,
-                backgroundAlpha: 0 // メニュー表示中はオーバーレイは見せない方が自然なので非表示
+                currentEdit: new Category(-1, ''),
+                menu: new Menu({layer: 1, backgroundAlpha: 0})
             },
 		}
     },
@@ -118,13 +110,11 @@ export default {
          */
         toggleVisibility(categoryId, categoryName, event) {
 
-            this.categoryMenuParams.currentEditCategory.id = categoryId
-            this.categoryMenuParams.currentEditCategory.name = categoryName
+            this.menuParams.currentEdit.id = categoryId
+            this.menuParams.currentEdit.name = categoryName
 
-            this.categoryMenuParams.posX = event.clientX
-            this.categoryMenuParams.posY = event.clientY
-            
-            this.categoryMenuParams.visible = !this.categoryMenuParams.visible
+            this.menuParams.menu.setPos(event.clientX, event.clientY)
+            this.menuParams.menu.toggleVisibility()
         },
 
         /**
@@ -132,10 +122,8 @@ export default {
          */
         closeModal() {
 
-            this.categoryMenuParams.currentEditCategory.id = -1
-            this.categoryMenuParams.currentEditCategory.name = ''
-            
-            this.categoryMenuParams.visible = false
+            this.menuParams.currentEdit.init()
+            this.menuParams.menu.init()
         }
     }
     
