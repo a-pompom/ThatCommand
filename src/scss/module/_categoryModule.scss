@@ -1,17 +1,21 @@
-.button--category-add {
-	@extend %button--simple;
-	
-	width: 48px;
-	height: 24px;
-	
-	background-color: $lightest; 
-	color: #4893C6;
+.button--category {
 
-	&:hover {
-		background-color: $accent-strong;
+	&-add {
+
+		@extend %button--simple;
+		
+		width: 48px;
+		height: 24px;
+		
+		background-color: $lightest; 
+		color: #4893C6;
+
+		&:hover {
+			background-color: $accent-strong;
+		}
 	}
-	
-	&--update {
+
+	&-update {
 		@extend %button--simple;
 		
 		width: 142px;
@@ -53,7 +57,9 @@
 	@include responsive(pc) {
 		width: 80%;
 	}
-	
+
+	position: relative;
+
 	&__item {
 		
 		text-align: center;

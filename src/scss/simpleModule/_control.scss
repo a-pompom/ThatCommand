@@ -13,6 +13,29 @@
 	display: none;
 }
 
+.input-toggle-enter-active, .input-toggle-leave-active {
+	transform-origin: 0 0; 
+	transition: all .8s;
+}
+
+.input-toggle-leave-to {
+	transform: scaleY(0);
+	height: 0;
+}
+
+.input-toggle-leave {
+	transform: scaleY(1.0);
+	height: 0;
+}
+
+.intput-toggle-enter-to {
+	transform: scaleY(1.0);
+}
+
+.input-toggle-enter {
+	transform: scaleY(0);
+}
+
 // レスポンシブ用
 // pc パソコン
 // sp スマートフォン

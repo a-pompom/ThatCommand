@@ -36,22 +36,26 @@
 // 入力要素ここまで --------------------------------------------------------------------
 
 // ボタン要素
-.command-button {
-	@extend %button--simple;
-	
-	width: 64px;
-	height: 32px;
-	
-	margin-top: 10px;
-	
-	background-color: $lightest; 
-	color: $accent-strong;
+.button--command {
 
-	&:hover {
-		background-color: $accent-strong;
+	&-add {
+
+		@extend %button--simple;
+		
+		width: 64px;
+		height: 32px;
+		
+		margin-top: 10px;
+		
+		background-color: $lightest; 
+		color: $accent-strong;
+
+		&:hover {
+			background-color: $accent-strong;
+		}
 	}
 	
-	&--update {
+	&-update {
 		@extend %button--simple;
 		
 		width: 142px;
