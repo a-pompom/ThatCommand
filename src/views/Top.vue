@@ -86,34 +86,14 @@
 
 				</header>
 				
-				<ul class="all-categories">
-					<li class="all-categories__item">
-						Git
-					</li>
-					<li class="all-categories__item">
-						Linux
-					</li>
-					<li class="all-categories__item">
-						Vim
-					</li>
-					<li class="all-categories__item">
-						Sass
-					</li>
-					<li class="all-categories__item">
-						Docker
-					</li>
-					<li class="all-categories__item">
-						Excel
-					</li>
-					<li class="all-categories__item">
-						Vue
-					</li>
-					<li class="all-categories__item">
-						JavaScript
-					</li>
-					<li class="all-categories__item">
-						Java
-					</li>
+				<ul 
+                    v-for="category in categoryList"
+                    v-bind:key="category.id"
+                    class="all-categories"
+                >
+                    <li class="all-categories__item">
+                        {{category.name}}
+                    </li>
 				</ul>
 
 			</section>
@@ -123,9 +103,30 @@
 </template>
 
 <script>
+import Category from '../models/Category.js'
+import FetchUtil from '../util/FetchUtil.js'
 
 export default {
   name: 'top',
+
+  data() {
+      return {
+          categoryList: []
+      }
+  },
+
+  mounted() {
+
+      FetchUtil.get('http://localhost:18080/api/v1/categories/').then((categories) => {
+
+            categories.forEach((category) => {
+
+                this.categoryList.push(new Category(category['category_id'], category['category_name']))
+            })
+
+        })
+
+  }
 }
 </script>
 
